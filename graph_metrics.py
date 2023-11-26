@@ -1,4 +1,10 @@
 #@title Functions to process the data
+import networkx as nx
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+from scipy import stats
+
 
 # Centralities
 def process_graph_centralities(G):
