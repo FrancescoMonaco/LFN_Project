@@ -36,7 +36,6 @@ def decomposition(correlation_matrix):
   plt.xlabel('Feature Number')
   plt.ylabel('Principal Component Value')
   plt.title('Principal Components of Correlation Matrix')
-  plt.legend()
   plt.show()
 
 
