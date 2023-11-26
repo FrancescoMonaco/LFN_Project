@@ -8,109 +8,105 @@ from nilearn import datasets, plotting
 from nilearn.image import get_data, index_img, mean_img
 from nilearn.regions import Parcellations
 
+import matplotlib.pyplot as plt
+from nilearn import plotting
 
 #PCA
-
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-
-# Create a PCA instance
-pca = PCA()
-pca.fit(correlation_matrix)
-
-# Get the eigenvalues (principal components)
-eigenvectors = pca.components_
-
-# Plot the eigenvectors as arrows
-plt.figure(figsize=(8, 6))
-
-for i, (eigenvector, explained_variance_ratio) in enumerate(zip(eigenvectors, pca.explained_variance_ratio_)):
-    plt.bar(range(len(eigenvector)), eigenvector, alpha=0.7, label=f'PC{i + 1}')
-
-plt.xlabel('Feature Number')
-plt.ylabel('Principal Component Value')
-plt.title('Principal Components of Correlation Matrix')
-plt.legend()
-plt.show()
-
-
-# @title Testo del titolo predefinito
-# Install the python-louvain package
-!pip install python-louvain
-
 from community import community_louvain
 import networkx as nx
 import matplotlib.cm as cm
 
-G=control_data.at[9, 'graph']
-partition = community_louvain.best_partition(G,weight='1', resolution= 0.9)
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
-print(max(partition.values()))
+def decomposition(correlation_matrix):
+  # Create a PCA instance
+  pca = PCA()
+  pca.fit(correlation_matrix)
 
-# draw the graph
-pos = nx.spring_layout(G)  # You can experiment with other layout algorithms
-# color the nodes according to their partition
-cmap = cm.get_cmap('viridis', max(partition.values()) + 1)
-nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
-nx.draw_networkx_edges(G, pos, alpha=0.5)
-plt.show()
+  # Get the eigenvalues (principal components)
+  eigenvectors = pca.components_
 
+  # Plot the eigenvectors as arrows
+  plt.figure(figsize=(8, 6))
 
+  for i, (eigenvector, explained_variance_ratio) in enumerate(zip(eigenvectors, pca.explained_variance_ratio_)):
+      plt.bar(range(len(eigenvector)), eigenvector, alpha=0.7, label=f'PC{i + 1}')
 
-
-# Assuming you have G, adjacency_matrix, and node_coords defined appropriately
-import matplotlib.pyplot as plt
-from nilearn import plotting
-
-# Draw the Louvain communities
-plt.figure(figsize=(12, 6))
-
-
+  plt.xlabel('Feature Number')
+  plt.ylabel('Principal Component Value')
+  plt.title('Principal Components of Correlation Matrix')
+  plt.legend()
+  plt.show()
 
 
-#da riadattare
+def louvain_partitioning(control_data):
+  G=control_data.at[9, 'graph']
+  partition = community_louvain.best_partition(G,weight='1', resolution= 0.9)
 
-# Create a Plotly figure
-fig = go.Figure()
+  print(max(partition.values()))
 
-# Add nodes to the figure with size proportional to degree
-for node, (x, y) in pos.items():
-    fig.add_trace(go.Scatter(x=[x], y=[y], mode="markers", marker=dict(size=1 * node_degrees[node], opacity=0.7), name=str(node_degrees[node])))
-
-# Add edges to the figure
-edge_x = []
-edge_y = []
-for edge in G.edges():
-    x0, y0 = pos[edge[0]]
-    x1, y1 = pos[edge[1]]
-    edge_x.extend([x0, x1, None])
-    edge_y.extend([y0, y1, None])
-fig.add_trace(go.Scatter(x=edge_x, y=edge_y, mode='lines', line=dict(width=0.5)))
+  # draw the graph
+  pos = nx.spring_layout(G)  # You can experiment with other layout algorithms
+  # color the nodes according to their partition
+  cmap = cm.get_cmap('viridis', max(partition.values()) + 1)
+  nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
+  nx.draw_networkx_edges(G, pos, alpha=0.5)
+  plt.show()
 
 
 
 
 
-# Subplot for Louvain communities
-plt.subplot(1, 2, 1)
-pos = nx.spring_layout(G)
-cmap = cm.get_cmap('viridis', max(partition.values()) + 1)
-nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
-nx.draw_networkx_edges(G, pos, alpha=0.5)
-plt.title("Louvain Communities")
+  # Draw the Louvain communities
+  plt.figure(figsize=(12, 6))
 
-# Subplot for connectome plot
-plt.subplot(1, 2, 2)
-display = plotting.plot_connectome(
-    correlation_matrix,  # Ensure the correct shape for the adjacency matrix
-    node_coords,      # Ensure the correct shape for the node coordinates
-    title="Power correlation graph",
-    edge_threshold="99.8%",
-    node_size=20,
-    colorbar=True,
-)
 
-plt.show()
+
+
+  #da riadattare
+
+  # Create a Plotly figure
+  fig = go.Figure()
+
+  # Add nodes to the figure with size proportional to degree
+  for node, (x, y) in pos.items():
+      fig.add_trace(go.Scatter(x=[x], y=[y], mode="markers", marker=dict(size=1 * node_degrees[node], opacity=0.7), name=str(node_degrees[node])))
+
+  # Add edges to the figure
+  edge_x = []
+  edge_y = []
+  for edge in G.edges():
+      x0, y0 = pos[edge[0]]
+      x1, y1 = pos[edge[1]]
+      edge_x.extend([x0, x1, None])
+      edge_y.extend([y0, y1, None])
+  fig.add_trace(go.Scatter(x=edge_x, y=edge_y, mode='lines', line=dict(width=0.5)))
+
+
+
+
+
+  # Subplot for Louvain communities
+  plt.subplot(1, 2, 1)
+  pos = nx.spring_layout(G)
+  cmap = cm.get_cmap('viridis', max(partition.values()) + 1)
+  nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
+  nx.draw_networkx_edges(G, pos, alpha=0.5)
+  plt.title("Louvain Communities")
+
+  # Subplot for connectome plot
+  plt.subplot(1, 2, 2)
+  display = plotting.plot_connectome(
+      correlation_matrix,  # Ensure the correct shape for the adjacency matrix
+      node_coords,      # Ensure the correct shape for the node coordinates
+      title="Power correlation graph",
+      edge_threshold="99.8%",
+      node_size=20,
+      colorbar=True,
+  )
+
+  plt.show()
 
 
 
