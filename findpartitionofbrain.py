@@ -1,5 +1,8 @@
 import time
 
+from scipy.integrate import simpson
+from numpy import trapz
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import patches, ticker
@@ -108,6 +111,7 @@ def louvain_partitioning(control_data):
   plt.show()
 
 
-
-
-
+#gives you all brain modules
+  def modularity(G):
+    module=nx.greedy_modularity_communities(G)
+    return module
