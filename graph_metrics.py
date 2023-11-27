@@ -1,4 +1,4 @@
-#@title Functions to process the data
+#@title Functions to process the graphs
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -73,6 +73,17 @@ def process_graph_modularity(G):
   return modularity
 
 def process_graphs(dataframe, condition):
+    '''
+    Process the graphs in the dataframe and return a dataframe with the results
+
+    Parameters:
+    - dataframe (pandas.DataFrame): Input dataframe.
+    - condition (str): Condition of the dataframe.
+
+    Returns:
+    Pandas dataframe containing the results.
+    '''
+
     results = []
     for _, row in tqdm(dataframe.iterrows(), total=len(dataframe)):
         G = row['graph']

@@ -10,6 +10,21 @@ from tqdm import tqdm
 from sklearn.preprocessing import StandardScaler
 
 def process_dataframe_row(data_path, confounds_data, spheres_masker, threshold):
+    '''
+    Process a row of the dataframe computing the graph and return a tuple containing:
+    1. The graph
+    2. The number of nodes
+    3. The number of edges
+
+    Parameters:
+    - data_path (str): Path to the fMRI data.
+    - confounds_data (str): Path to the confounds data.
+    - spheres_masker (NiftiSpheresMasker): Spheres masker to extract the timeseries.
+    - threshold (float): Percentage to sparify the correlation.
+
+    Returns:
+    Tuple containing the graph, the number of nodes and the number of edges.
+    '''
     confounds_data = confounds_data.replace([np.nan, np.inf, -np.inf], 0)
     timeseries = spheres_masker.fit_transform(data_path, confounds=confounds_data)
 
@@ -46,6 +61,22 @@ def process_dataframe_row(data_path, confounds_data, spheres_masker, threshold):
     return G, num_nodes, num_edges
 
 def process_dataframe(dataframe, condition, spheres_masker, threshold):
+    '''
+    Process the dataframe computing the graph and return a list of tuples containing:
+    1. The subject id
+    2. The graph
+    3. The number of nodes
+    4. The number of edges
+
+    Parameters:
+    - dataframe (pandas.DataFrame): Input dataframe.
+    - condition (str): Condition to filter the dataframe.
+    - spheres_masker (NiftiSpheresMasker): Spheres masker to extract the timeseries.
+    - threshold (float): Threshold to create the graph.
+
+    Returns:
+    List of tuples containing the subject id, the graph, the number of nodes and the number of edges.
+    '''
     results = []
     for _, row in tqdm(dataframe.iterrows(), total=len(dataframe)):
         data_path = row['data']
