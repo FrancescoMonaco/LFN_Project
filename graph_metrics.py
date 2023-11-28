@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from scipy import stats
+from tabulate import tabulate
 
 
 # Centralities
