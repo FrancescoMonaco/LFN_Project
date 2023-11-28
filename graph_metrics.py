@@ -105,3 +105,24 @@ def process_graphs(dataframe, condition):
                         values_top_nodes_degree, values_top_nodes_clustering,
                         modularity, gbe, nc))
     return results
+
+def print_mean_std(dataframes, conditions, metrics=[
+    'closeness', 'betweenness', 'degree', 'clustering',
+    'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
+    'modularity', 'global_efficiency', 'network_cost'
+]):
+  #print a table with mean and std for each condition and metric
+  table_data = []
+
+  for column in metrics:
+      row = [column]
+      for condition, df in zip(conditions, dataframes):
+          mean_value = df[column].mean()
+          std_value = df[column].std()
+          row.extend([f"{mean_value:.4f} ± {std_value:.4f}"])
+      table_data.append(row)
+
+  headers = ["Metric"] + conditions
+  table = tabulate(table_data, headers, tablefmt="pretty")
+  print(table)
+  return
