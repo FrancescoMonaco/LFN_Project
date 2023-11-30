@@ -110,7 +110,7 @@ def process_graphs(dataframe, condition):
 def print_mean_std(dataframes, conditions, metrics=[
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
-    'modularity', 'global_efficiency', 'network_cost'
+    'modularity', 'global_efficiency', 'network_cost', 'edges', 'nodes'
 ]):
   #print a table with mean and std for each condition and metric
   table_data = []
