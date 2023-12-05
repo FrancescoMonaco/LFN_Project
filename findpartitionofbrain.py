@@ -99,14 +99,11 @@ def louvain_partitioning(control_data):
 
   # Subplot for connectome plot
   plt.subplot(1, 2, 2)
-  display = plotting.plot_connectome(
-      correlation_matrix,  # Ensure the correct shape for the adjacency matrix
-      node_coords,      # Ensure the correct shape for the node coordinates
-      title="Power correlation graph",
-      edge_threshold="99.8%",
-      node_size=20,
-      colorbar=True,
-  )
+  # plot in nilearn the nodes whose color is assigned according to their partition
+  display = plotting.plot_connectome(G, edge_cmap='viridis', node_color=list(partition.values()),
+                          edge_vmin=0., edge_vmax=1., node_size=20, colorbar=False,
+                          title="Connectome plot with communities")
+
 
   plt.show()
 
