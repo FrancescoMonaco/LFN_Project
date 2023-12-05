@@ -58,7 +58,7 @@ def process_dataframe_row(data_path, confounds_data, spheres_masker, threshold):
 
     num_nodes = G.number_of_nodes()
     num_edges = G.number_of_edges()
-    return G, num_nodes, num_edges
+    return G, num_nodes, num_edges, power_correlation_matrix
 
 def process_dataframe(dataframe, condition, spheres_masker, threshold):
     '''
@@ -81,6 +81,6 @@ def process_dataframe(dataframe, condition, spheres_masker, threshold):
     for _, row in tqdm(dataframe.iterrows(), total=len(dataframe)):
         data_path = row['data']
         confounds_data = row['confounds']
-        G, num_nodes, num_edges = process_dataframe_row(data_path, confounds_data, spheres_masker, threshold)
-        results.append((row.name, G, num_nodes, num_edges))
+        G, num_nodes, num_edges, power_correlation_matrix = process_dataframe_row(data_path, confounds_data, spheres_masker, threshold)
+        results.append((row.name, G, num_nodes, num_edges, power_correlation_matrix))
     return results
