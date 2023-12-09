@@ -8,16 +8,14 @@
 > Random graphs             (Francesco)
 > 
 > Significance of features  (Francesco)
+>
+> Modules computation       (Michele)
 > 
 > Parallel computing        (Francesco)
 # Things to implement
 > Motifs computation        (Christy)
 > 
 > Motifs analysis
-> 
-> Modules computation       (Michele)
-> 
-> Louvian partitioning      (Michele)
 > 
 > Analysis on modules       (Francesco, Michele)
 # Things to write in the paper
