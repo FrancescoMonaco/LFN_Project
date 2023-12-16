@@ -151,12 +151,12 @@ def print_ttest_pval(dataframes, conditions, metrics=base_metrics):
 
   for column in metrics:
     # Extract the control, we will compare the other conditions to it
-    control_data = dataframes[conditions[0]][column]
+    control_data = dataframes[0][column]
     row = [column]
 
-    for condition in conditions[1:]:
+    for condition, df in  zip(conditions[1:], dataframes[1:]):
       # Extract the data
-      data = dataframes[condition][column]
+      data = df[column]
       # Perform the t-test
       ttest = stats.ttest_ind(control_data, data)
       # Add the p-value to the row
