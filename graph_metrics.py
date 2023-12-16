@@ -6,8 +6,13 @@ from tqdm import tqdm
 from scipy import stats
 from tabulate import tabulate
 
+# Metrics to be calculated
+base_metrics = [
+    'closeness', 'betweenness', 'degree', 'clustering',
+    'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
+    'modularity', 'global_efficiency', 'network_cost', 'edges', 'nodes']
 
-# Centralities
+# ***Features
 def process_graph_centralities(G):
     """
     Calculate centrality measures for a graph and extract top 5 nodes for each measure.
@@ -73,13 +78,14 @@ def process_graph_modularity(G):
   modularity = nx.community.modularity(G, nx.community.label_propagation_communities(G))
   return modularity
 
+# ***Processing
 def process_graphs(dataframe, condition):
     '''
     Process the graphs in the dataframe and return a dataframe with the results
 
     Parameters:
-    - dataframe (pandas.DataFrame): Input dataframe.
-    - condition (str): Condition of the dataframe.
+    1. dataframe (pandas.DataFrame): Input dataframe.
+    2. condition (str): Condition of the dataframe.
 
     Returns:
     Pandas dataframe containing the results.
@@ -107,11 +113,15 @@ def process_graphs(dataframe, condition):
                         modularity, gbe, nc))
     return results
 
-def print_mean_std(dataframes, conditions, metrics=[
-    'closeness', 'betweenness', 'degree', 'clustering',
-    'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
-    'modularity', 'global_efficiency', 'network_cost', 'edges', 'nodes'
-]):
+def print_mean_std(dataframes, conditions, metrics=base_metrics):
+  '''
+  Print a table with mean and std for each condition and metric
+
+  Parameters:
+  1. dataframes (list): List of dataframes to be processed.
+  2. conditions (list): List of conditions.
+  3. metrics (list): List of metrics to be calculated.
+  '''
   #print a table with mean and std for each condition and metric
   table_data = []
 
@@ -124,6 +134,36 @@ def print_mean_std(dataframes, conditions, metrics=[
       table_data.append(row)
 
   headers = ["Metric"] + conditions
+  table = tabulate(table_data, headers, tablefmt="pretty")
+  print(table)
+  return
+
+def print_ttest_pval(dataframes, conditions, metrics=base_metrics):
+  '''
+  Print a table with the p-value of the t-test for each condition and metric
+
+  Parameters:
+  1. dataframes (list): List of dataframes to be processed.
+  2. conditions (list): List of conditions.
+  3. metrics (list): List of metrics to be calculated.
+  '''
+  table_data = []
+
+  for column in metrics:
+    # Extract the control, we will compare the other conditions to it
+    control_data = dataframes[conditions[0]][column]
+    row = [column]
+
+    for condition in conditions[1:]:
+      # Extract the data
+      data = dataframes[condition][column]
+      # Perform the t-test
+      ttest = stats.ttest_ind(control_data, data)
+      # Add the p-value to the row
+      row.append(f"{ttest.pvalue:.4f}")
+    table_data.append(row)
+
+  headers = ["Metric"] + conditions[1:]
   table = tabulate(table_data, headers, tablefmt="pretty")
   print(table)
   return
