@@ -10,7 +10,7 @@ from tabulate import tabulate
 base_metrics = [
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
-    'modularity', 'global_efficiency', 'network_cost', 'edges', 'nodes']
+    'modularity', 'global_efficiency', 'edges', 'nodes']
 
 # ***Features
 def process_graph_centralities(G):
