@@ -109,6 +109,13 @@ def louvain_partitioning(control_data):
 
 
 #gives you all brain modules
-  def compute_communities(G):
-    modules = nx.greedy_modularity_communities(G)
-    return modules
+def compute_communities(dataframe, condition):
+
+    results = []
+    for _, row in tqdm(dataframe.iterrows(), total=len(dataframe)):
+        G = row['graph']
+        com = greedy_modularity_communities(G)
+
+        #Put results in the result df
+        results.append((row.name, com))
+    return results
