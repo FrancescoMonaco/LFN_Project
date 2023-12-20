@@ -109,6 +109,6 @@ def louvain_partitioning(control_data):
 
 
 #gives you all brain modules
-  def modularity(G):
-    module=nx.greedy_modularity_communities(G)
-    return module
+  def compute_communities(G):
+    modules = nx.greedy_modularity_communities(G)
+    return modules
