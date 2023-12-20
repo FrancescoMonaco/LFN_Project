@@ -138,7 +138,10 @@ def print_mean_std(dataframes, conditions, metrics=base_metrics):
   print(table)
   return
 
-def print_ttest_pval(dataframes, conditions, metrics=base_metrics):
+def print_ttest_pval(dataframes, conditions, metrics=[
+    'closeness', 'betweenness', 'degree', 'clustering',
+    'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
+    'modularity', 'global_efficiency']):
   '''
   Print a table with the p-value of the t-test for each condition and metric
 
@@ -150,11 +153,12 @@ def print_ttest_pval(dataframes, conditions, metrics=base_metrics):
   table_data = []
 
   for column in metrics:
+
     # Extract the control, we will compare the other conditions to it
     control_data = dataframes[0][column]
     row = [column]
 
-    for condition, df in  zip(conditions[1:], dataframes[1:]):
+    for condition, df in  zip(conditions[1:4], dataframes[1:4]):
       # Extract the data
       data = df[column]
       # Perform the t-test
