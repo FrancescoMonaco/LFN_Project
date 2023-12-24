@@ -75,7 +75,7 @@ def network_cost(G):
   return n_edges/binomial_coefficient
 
 def process_graph_modularity(G):
-  modularity = nx.community.modularity(G, nx.community.label_propagation_communities(G))
+  modularity = nx.community.modularity(G, nx.greedy_modularity_communities(G))
   return modularity
 
 
@@ -87,8 +87,13 @@ def transitive(G):
   return nx.transitivity(G)
 # ***Processing
 
+#da rivedere 
 def eccentric(G):
-  return nx.eccentricity(G)
+    connected_graph=nx.connected_components(G)
+    ecc=[]
+    for connection in connected_graph 
+      ecc=ecc+nx.eccentricity(connection)
+    return ecc
 
 def process_graphs(dataframe, condition):
     '''
