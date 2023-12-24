@@ -118,13 +118,13 @@ def process_graphs(dataframe, condition):
         nc = network_cost(G) #launches an error, needs to be checked
         ass=assortative(G)
         tran=transitive(G)
-        e=eccentric(G)
+
 
         #Put results in the result df
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
-                        modularity, gbe, nc,ass,tran,e))
+                        modularity, gbe, nc,ass,tran))
     return results
 
 def print_mean_std(dataframes, conditions, metrics=base_metrics):
