@@ -78,7 +78,18 @@ def process_graph_modularity(G):
   modularity = nx.community.modularity(G, nx.community.label_propagation_communities(G))
   return modularity
 
+
+def assortative(G):
+  r= nx.degree_pearson_correlation_coefficient(G)
+  return r
+  
+def transitive(G):
+  return nx.transitivity(G)
 # ***Processing
+
+def eccentric(G):
+  return nx.eccentricity(G)
+
 def process_graphs(dataframe, condition):
     '''
     Process the graphs in the dataframe and return a dataframe with the results
@@ -98,19 +109,22 @@ def process_graphs(dataframe, condition):
         # Mean centralities and top 5 values
         (m_closeness, m_betweenness, m_degree, avg_clust,
         values_top_nodes_closeness, values_top_nodes_betweenness,
-        values_top_nodes_degree, values_top_nodes_clustering,
+        values_top_nodes_degree, values_top_nodes_clustering
         ) = process_graph_centralities(G)
 
         # Modularity, costs
         modularity = process_graph_modularity(G)
         gbe = global_brain_efficiency(G)
         nc = network_cost(G) #launches an error, needs to be checked
+        ass=assortative(G)
+        tran=transitive(G)
+        e=eccentric(G)
 
         #Put results in the result df
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
-                        modularity, gbe, nc))
+                        modularity, gbe, nc,ass,tran,e))
     return results
 
 def print_mean_std(dataframes, conditions, metrics=base_metrics):
