@@ -75,7 +75,10 @@ def network_cost(G):
   return n_edges/binomial_coefficient
 
 def process_graph_modularity(G):
-  modularity = nx.community.modularity(G, nx.greedy_modularity_communities(G))
+  components=nx.connected_componets(G)
+  modularity=0
+  for x in components:
+      modularity = monularity+nx.community.modularity(G, nx.greedy_modularity_communities(G))
   return modularity
 
 
