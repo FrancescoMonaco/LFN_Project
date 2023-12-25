@@ -94,7 +94,7 @@ def transitive(G):
 def eccentric(G):
     connected_graph=nx.connected_components(G)
     ecc=[]
-    for connection in connected_graph 
+    for connection in connected_graph:
       ecc=ecc+nx.eccentricity(connection)
     return ecc
 
