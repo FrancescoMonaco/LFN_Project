@@ -78,7 +78,7 @@ def process_graph_modularity(G):
   components=nx.connected_components(G)
   modularity=0
   for x in components:
-      modularity = monularity+nx.community.modularity(G, nx.greedy_modularity_communities(G))
+      modularity = modularity+nx.community.modularity(G, nx.greedy_modularity_communities(G))
   return modularity
 
 
