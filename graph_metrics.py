@@ -5,6 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 from scipy import stats
 from tabulate import tabulate
+from networkx.algorithms import community
 
 # Metrics to be calculated
 base_metrics = [
