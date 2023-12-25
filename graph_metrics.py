@@ -6,6 +6,7 @@ from tqdm import tqdm
 from scipy import stats
 from tabulate import tabulate
 from networkx.algorithms import community
+from networkx.algorithms.community import greedy_modularity_communities
 
 # Metrics to be calculated
 base_metrics = [
@@ -79,7 +80,7 @@ def process_graph_modularity(G):
   components=nx.connected_components(G)
   modularity=0
   for x in components:
-      modularity = modularity+nx.community.modularity(G, nx.greedy_modularity_communities(G))
+      modularity = modularity+nx.community.modularity(G, greedy_modularity_communities(G))
   return modularity
 
 
