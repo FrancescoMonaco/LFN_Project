@@ -44,6 +44,10 @@ def process_graph_centralities(G):
 
     clustering = nx.clustering(G)
 
+    #e=eccentric(G)
+    #sorted_items = sorted(my_dict.items(), key=lambda item: item[1])
+    #top_five_values=sorted_items[:5]
+    
     # Sort nodes based on centrality measures
     top_nodes_closeness = sorted(closeness, key=closeness.get, reverse=True)[:5]
     top_nodes_betweenness = sorted(betweenness, key=betweenness.get, reverse=True)[:5]
@@ -59,6 +63,7 @@ def process_graph_centralities(G):
     m_closeness = sum(closeness.values())/num_nodes
     m_betweenness = sum(betweenness.values())/num_nodes
     avg_clust = nx.average_clustering(G)
+    #m_eccencitricy=
 
     return (m_closeness, m_betweenness, m_degree, avg_clust,
                     values_top_nodes_closeness,
