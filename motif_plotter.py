@@ -19,7 +19,7 @@ def compute_plot_top3_motifs(df):
     total_motif_counts = {}
 
     # Iterate over each row in control_data
-    for index, row in control_data.iterrows():
+    for index, row in df.iterrows():
         nx_graph = row['graph']
 
         # Transform networkX -> graph-tool
