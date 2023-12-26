@@ -12,11 +12,11 @@
 > Modules computation       (Michele)
 > 
 > Parallel computing        (Francesco)
-# Things to implement
-> Motifs computation        (Christy)
-> 
-> Motifs analysis
-> 
+>
+> Motifs computation        (Christy, Francesco)
+>
 > Analysis on modules       (Francesco, Michele)
+# Things to implement
+
 # Things to write in the paper
 > Analysis of the results   (Michele, Francesco)
