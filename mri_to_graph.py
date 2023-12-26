@@ -55,10 +55,15 @@ def process_dataframe_row(data_path, confounds_data, spheres_masker, threshold):
         for j in range(i + 1, len(power_correlation_matrix)):
             if power_correlation_matrix[i, j] >= threshold:
                 G.add_edge(i, j)
-
+                
+    num_nodes_per_component=[]
+    connencted_componen=nx.connected_components(G)
+    for connection in connected_componen
+        nod=connection.number_of_nodes()
+        num_nodes_per_component.append(nod)
     num_nodes = G.number_of_nodes()
     num_edges = G.number_of_edges()
-    return G, num_nodes, num_edges, power_correlation_matrix
+    return G, num_nodes, num_edges, power_correlation_matrix,num_nodes_per_component
 
 def process_dataframe(dataframe, condition, spheres_masker, threshold):
     '''
@@ -67,6 +72,7 @@ def process_dataframe(dataframe, condition, spheres_masker, threshold):
     2. The graph
     3. The number of nodes
     4. The number of edges
+    5. number of noder per partition
 
     Parameters:
     - dataframe (pandas.DataFrame): Input dataframe.
@@ -81,6 +87,6 @@ def process_dataframe(dataframe, condition, spheres_masker, threshold):
     for _, row in tqdm(dataframe.iterrows(), total=len(dataframe)):
         data_path = row['data']
         confounds_data = row['confounds']
-        G, num_nodes, num_edges, power_correlation_matrix = process_dataframe_row(data_path, confounds_data, spheres_masker, threshold)
-        results.append((row.name, G, num_nodes, num_edges, power_correlation_matrix))
+        G, num_nodes, num_edges, power_correlation_matrix,num_nodes_per_component= process_dataframe_row(data_path, confounds_data, spheres_masker, threshold)
+        results.append((row.name, G, num_nodes, num_edges, power_correlation_matrix,num_nodes_per_component))
     return results
