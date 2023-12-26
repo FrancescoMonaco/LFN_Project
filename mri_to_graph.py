@@ -58,7 +58,7 @@ def process_dataframe_row(data_path, confounds_data, spheres_masker, threshold):
                 
     num_nodes_per_component=[]
     connencted_componen=nx.connected_components(G)
-    for connection in connected_componen
+    for connection in connected_componen:
         nod=connection.number_of_nodes()
         num_nodes_per_component.append(nod)
     num_nodes = G.number_of_nodes()
