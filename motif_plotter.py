@@ -15,11 +15,11 @@ def compute_plot_top3_motifs(df):
     Plotly figure.
     '''
 
-    # Store the total motif counts
+    # Initialize a dictionary to store the total motif counts
     total_motif_counts = {}
 
-    # Iterate over each row
-    for index, row in df.iterrows():
+    # Iterate over each row in control_data
+    for index, row in control_data.iterrows():
         nx_graph = row['graph']
 
         # Transform networkX -> graph-tool
@@ -33,6 +33,7 @@ def compute_plot_top3_motifs(df):
 
         # Compute motif counts up to k=4
         motif_counts_tuple = motifs(subgraph, k=4)
+        motif_graphs = motif_counts_tuple[0]
         motif_counts = motif_counts_tuple[1]
 
         # Sum the motif counts for each motif
@@ -42,17 +43,16 @@ def compute_plot_top3_motifs(df):
             else:
                 total_motif_counts[motif_index] += count
 
-    # Sort the motifs
+    # Get the indices of the motifs sorted by total count in descending order
     sorted_motif_indices = np.argsort(list(total_motif_counts.values()))[::-1]
 
     # Extract the top 3 motifs
     top_motifs = sorted_motif_indices[:3]
     fig = Figure()
 
-    # For each motif in the top 3
+    # Iterate over the top motifs
     for motif_index in top_motifs:
-        
-        # Extract the motif graph
+        # Get the motif graph
         motif_graph = motif_graphs[motif_index]
 
         # Get positions for nodes
@@ -79,7 +79,7 @@ def compute_plot_top3_motifs(df):
 
         # Add their count
         motif_count_annotation = Annotation(
-            text=f'Motif {motif_index + 1}<br>Count: {motif_counts[motif_index]}',
+            text=f'Motif {motif_index + 1}<br>Count: {total_motif_counts[motif_index]}',
             x=pos[0][0],
             y=pos[0][1],
             xref='x',
