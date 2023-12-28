@@ -4,12 +4,13 @@ import numpy as np
 import networkx as nx
 import pandas as pd
 
-def compute_plot_top3_motifs(df):
+def compute_plot_top3_motifs(df, k_in=4):
     '''
     Compute and plot the top 3 motifs from a dataframe containing the graphs in the 'graph' column.
 
     Parameters:
     - df (pandas.DataFrame): Dataframe containing graphs in the 'graph' column.
+    - k_in (int): Motif size to compute.
 
     Returns:
     Plotly figure.
@@ -32,7 +33,7 @@ def compute_plot_top3_motifs(df):
         subgraph = GraphView(g, vfilt=largest_comp)
 
         # Compute motif counts up to k=4
-        motif_counts_tuple = motifs(subgraph, k=4)
+        motif_counts_tuple = motifs(subgraph, k=k_in)
         motif_graphs = motif_counts_tuple[0]
         motif_counts = motif_counts_tuple[1]
 
