@@ -80,7 +80,8 @@ def compute_plot_top3_motifs(df, k_in=4):
 
         # Add their count
         motif_count_annotation = Annotation(
-            text=f'Motif {motif_index + 1}<br>Count: {total_motif_counts[motif_index]}',
+            # Compute the mean of the counts
+            text=f'Motif {motif_index + 1}<br>Count: {total_motif_counts[motif_index]/len(df):.2f}',
             x=pos[0][0],
             y=pos[0][1],
             xref='x',
