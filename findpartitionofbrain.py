@@ -2,7 +2,7 @@
 
 from scipy.integrate import simpson
 from numpy import trapz
-
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import patches, ticker
