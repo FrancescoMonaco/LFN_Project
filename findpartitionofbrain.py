@@ -42,7 +42,7 @@ def community_metrics(G,com):
     ls=[]
     for i, comm in enumerate(com):
         subgraph = G.subgraph(comm)
-        betweenness_centrality = centrality.betweenness_centrality(subgraph)
-        closeness_centrality = centrality.closeness_centrality(subgraph)
+        betweenness_centrality = nx..betweenness_centrality(subgraph)
+        closeness_centrality = nx.closeness_centrality(subgraph)
         ls.append(betweenness_centrality,closeness_centrality)
     return ls
