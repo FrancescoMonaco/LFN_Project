@@ -1,4 +1,4 @@
-import time
+#import time
 
 from scipy.integrate import simpson
 from numpy import trapz
@@ -31,9 +31,9 @@ def compute_communities(dataframe, condition):
         for component in c_comp:
           component_subgraph = G.subgraph(component)
           com= com + greedy_modularity_communities(component_subgraph)
-        ls=community_metrics(G,com)
+        #ls=community_metrics(G,com)
         #Put results in the result df
-        results.append((row.name, com,ls))
+        results.append((row.name, com))
     return results
 
 #computes closeness centrality and betweenness centrality fo each component
