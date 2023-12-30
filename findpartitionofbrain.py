@@ -13,7 +13,8 @@ from nilearn.regions import Parcellations
 
 import matplotlib.pyplot as plt
 from nilearn import plotting
-
+from networkx.algorithms import community
+from networkx.algorithms.community import greedy_modularity_communities
 #PCA
 from community import community_louvain
 import networkx as nx
