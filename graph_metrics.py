@@ -44,21 +44,19 @@ def process_graph_centralities(G):
     degree = dict(G.degree())
 
     clustering = nx.clustering(G)
-
-    #e=eccentric(G)
-    #sorted_items = sorted(my_dict.items(), key=lambda item: item[1])
-    #top_five_values=sorted_items[:5]
     
     # Sort nodes based on centrality measures
     top_nodes_closeness = sorted(closeness, key=closeness.get, reverse=True)[:5]
     top_nodes_betweenness = sorted(betweenness, key=betweenness.get, reverse=True)[:5]
     top_nodes_degree = sorted(degree, key=degree.get, reverse=True)[:5]
     top_nodes_clustering = sorted(clustering, key=clustering.get, reverse=True)[:5]
+    
     # Extract their values
     values_top_nodes_closeness = np.mean([closeness[node] for node in top_nodes_closeness])
     values_top_nodes_betweenness = np.mean([betweenness[node] for node in top_nodes_betweenness])
     values_top_nodes_degree = np.mean([degree[node] for node in top_nodes_degree])
     values_top_nodes_clustering = np.mean([clustering[node] for node in top_nodes_clustering])
+    
     # Mean on the graph
     m_degree = sum(degree.values())/num_nodes
     m_closeness = sum(closeness.values())/num_nodes
@@ -76,12 +74,14 @@ def process_graph_centralities(G):
 def global_brain_efficiency(G):
   return nx.global_efficiency(G)
 
+#cost of the network 
 def network_cost(G):
   n_edges=G.number_of_edges()
   n_nodes=G.number_of_nodes()
   binomial_coefficient = (stats.binom(n_nodes, 2)).pmf(2)
   return n_edges/binomial_coefficient
 
+#modularity
 def process_graph_modularity(G):
   components=nx.connected_components(G)
   modularity=0
@@ -89,23 +89,16 @@ def process_graph_modularity(G):
       modularity = modularity+nx.community.modularity(G, greedy_modularity_communities(G))
   return modularity
 
-
+#assortativity 
 def assortative(G):
   r= nx.degree_pearson_correlation_coefficient(G)
   return r
-  
+
+#transitivity
 def transitive(G):
   return nx.transitivity(G)
+
 # ***Processing
-
-#da rivedere 
-def eccentric(G):
-    connected_graph=nx.connected_components(G)
-    ecc=[]
-    for connection in connected_graph:
-      ecc=ecc+nx.eccentricity(connection)
-    return ecc
-
 def process_graphs(dataframe, condition):
     '''
     Process the graphs in the dataframe and return a dataframe with the results
@@ -123,6 +116,7 @@ def process_graphs(dataframe, condition):
         G = row['graph']
 
         # Mean centralities and top 5 values
+        
         (m_closeness, m_betweenness, m_degree, avg_clust,
         values_top_nodes_closeness, values_top_nodes_betweenness,
         values_top_nodes_degree, values_top_nodes_clustering
@@ -130,9 +124,15 @@ def process_graphs(dataframe, condition):
 
         # Modularity, costs
         modularity = process_graph_modularity(G)
+        
         gbe = global_brain_efficiency(G)
+        
         nc = network_cost(G) #launches an error, needs to be checked
+        
+        #assortativity of the brain
         ass=assortative(G)
+        
+        #transitivity of the brain
         tran=transitive(G)
 
 
