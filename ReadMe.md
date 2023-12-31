@@ -13,7 +13,7 @@
 > 
 > Parallel computing        (Francesco)
 >
-> Motifs computation        (Christy, Francesco)
+> Motifs computation        (Christy, Francesco,Michele)
 >
 > Analysis on modules       (Francesco, Michele)
 # Things to implement
