@@ -20,7 +20,7 @@ from community import community_louvain
 import networkx as nx
 import matplotlib.cm as cm
 
-#gives you all brain modules
+#gives you all brain modules and computes betweenness centrality and closeness centrality for each module
 def compute_communities(dataframe, condition):
 
     results = []
@@ -29,6 +29,8 @@ def compute_communities(dataframe, condition):
         c_comp=nx.connected_components(G)
 
         com=[]
+        #since the graph is not connected we compute the comunities for each connected
+        #component in G
         for component in c_comp:
           component_subgraph = G.subgraph(component)
           com= com + greedy_modularity_communities(component_subgraph)
@@ -37,9 +39,10 @@ def compute_communities(dataframe, condition):
         results.append((row.name, com,ls))
     return results
 
-#computes closeness centrality and betweenness centrality fo each component
+#computes closeness centrality and betweenness centrality fo each module
 def community_metrics(G,com):
     ls=[]
+    #take all the modules in com
     for i, comm in enumerate(com):
         subgraph = G.subgraph(comm)
         betweenness_centrality = nx..betweenness_centrality(subgraph)
