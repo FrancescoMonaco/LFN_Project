@@ -133,7 +133,7 @@ def process_graphs(dataframe, condition):
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
-                        modularity, gbe, nc,ass,tran))
+                        modularity, gbe,ass,tran))
     return results
 
 def print_mean_std(dataframes, conditions, metrics=base_metrics):
