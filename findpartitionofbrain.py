@@ -36,7 +36,7 @@ def compute_communities(dataframe, condition):
           com= com + greedy_modularity_communities(component_subgraph)
         ls=community_metrics(G,com)
         #Put results in the result df
-        results.append((row.name, com,ls))
+        results.append((row.name,( com,ls)))
     return results
 
 #computes closeness centrality and betweenness centrality fo each module
