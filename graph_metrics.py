@@ -74,13 +74,6 @@ def process_graph_centralities(G):
 def global_brain_efficiency(G):
   return nx.global_efficiency(G)
 
-#cost of the network 
-def network_cost(G):
-  n_edges=G.number_of_edges()
-  n_nodes=G.number_of_nodes()
-  binomial_coefficient = (stats.binom(n_nodes, 2)).pmf(2)
-  return n_edges/binomial_coefficient
-
 #modularity
 def process_graph_modularity(G):
   components=nx.connected_components(G)
@@ -127,7 +120,7 @@ def process_graphs(dataframe, condition):
         
         gbe = global_brain_efficiency(G)
         
-        nc = network_cost(G) #launches an error, needs to be checked
+        
         
         #assortativity of the brain
         ass=assortative(G)
