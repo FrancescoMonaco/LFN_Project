@@ -45,7 +45,16 @@ def community_metrics(G,com):
     #take all the modules in com
     for i, comm in enumerate(com):
         subgraph = G.subgraph(comm)
-        betweenness_centrality = nx.betweenness_centrality(subgraph)
-        closeness_centrality = nx.closeness_centrality(subgraph)
-        ls.append((betweenness_centrality,closeness_centrality))
+        betweenness = nx.betweenness_centrality(subgraph)
+        closeness = nx.closeness_centrality(subgraph)
+        # Sort nodes based on centrality measures
+        top_nodes_closeness = sorted(closeness, key=closeness.get, reverse=True)[:5]
+        top_nodes_betweenness = sorted(betweenness, key=betweenness.get, reverse=True)[:5]
+        # Extract their values
+        values_top_nodes_closeness = np.mean([closeness[node] for node in top_nodes_closeness])
+        values_top_nodes_betweenness = np.mean([betweenness[node] for node in top_nodes_betweenness])
+        m_closeness = sum(closeness.values())/num_nodes
+        m_betweenness = sum(betweenness.values())/num_nodes
+    
+        ls.append((m_betweenness,m_closeness))
     return ls
