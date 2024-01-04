@@ -46,6 +46,7 @@ def community_metrics(G,com):
     #take all the modules in com
     for i, comm in enumerate(com):
         subgraph = G.subgraph(comm)
+        num_nodes=subgraph.number_of_nodes()
         betweenness = nx.betweenness_centrality(subgraph)
         closeness = nx.closeness_centrality(subgraph)
         # Sort nodes based on centrality measures
