@@ -62,3 +62,49 @@ def community_metrics(G,com):
         lb.append(m_betweenness)
         
     return lc,lb
+def modular_centrality(G):
+    
+    # Step 2: Remove all the inter-community links from the original network G.
+    com = nx.connected_components(G)
+    communities = []
+    for component in com:
+        component_subgraph = G.subgraph(component)
+        communities = communities + list(greedy_modularity_communities(component_subgraph))
+   
+    local_networks = []
+    for community in communities:
+        local_network = G.subgraph(community)
+        local_networks.append(local_network)
+
+    # Step 3: Compute the Local measure for each node in its own community.
+    local_measures = {}
+    for local_network in local_networks:
+        cc=nx.closeness_centrality(local_network)
+        for node in local_network.nodes():
+            local_measures[node] =cc[node] 
+    print(local_measures)
+
+    # Step 4: Remove all the intra-community links from the original network.
+    inter_community_links = G.copy()
+    
+    for local_network in local_networks:
+         
+        inter_community_links.remove_edges_from(local_network.edges)
+
+    # Step 5: Form the global network based on the union of all the connected components.
+    global_network = nx.Graph()
+    global_network.add_nodes_from(G.nodes())
+    global_network.add_edges_from(inter_community_links.edges())
+
+    # Step 6: Compute the Global measure of the nodes linking the communities.
+    global_measures = nx.closeness_centrality(global_network)  # Use the chosen centrality measure on the global network
+    print(global_measures)
+    # Step 7: Add local and global measures to the Modular centrality vector.
+    modular_centrality_vector = {}
+    for node in G.nodes():
+        modular_centrality_vector[node] = global_measures.get(node, 0) / local_measures.get(node, 0)
+    
+    top_5_nodes = sorted(modular_centrality_vector.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_5_modular_centrality = dict(top_5_nodes)
+    print(top_5_modular_centrality)
+    return modular_centrality_vector
