@@ -12,8 +12,8 @@ from networkx.algorithms.community import greedy_modularity_communities
 base_metrics = [
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
-    'modularity', 'global_efficiency', 'edges', 'nodes', 'network_cost',
-    'assortativity', 'transitivity']
+    'modularity', 'global_efficiency', 'edges', 'nodes',
+    'assortativity', 'transitivity','local_efficiency']
 
 # ***Features
 def process_graph_centralities(G):
