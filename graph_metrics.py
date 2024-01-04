@@ -73,7 +73,10 @@ def process_graph_centralities(G):
 # Efficiency metrics
 def global_brain_efficiency(G):
   return nx.global_efficiency(G)
-
+    
+def average_local_efficience(G):
+    return nx.local_efficiency(G)
+    
 #modularity
 def process_graph_modularity(G):
   components=nx.connected_components(G)
@@ -120,7 +123,7 @@ def process_graphs(dataframe, condition):
         
         gbe = global_brain_efficiency(G)
         
-        
+        lc= average_local_efficience(G)
         
         #assortativity of the brain
         ass=assortative(G)
@@ -133,7 +136,7 @@ def process_graphs(dataframe, condition):
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
-                        modularity, gbe,ass,tran))
+                        modularity, gbe,ass,tran,lc))
     return results
 
 def print_mean_std(dataframes, conditions, metrics=base_metrics):
