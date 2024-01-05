@@ -134,7 +134,10 @@ def modular_closeness_centrality(G):
     # Step 7: Add local and global measures to the Modular centrality vector.
     modular_centrality_vector = {}
     for node in G.nodes():
-        modular_centrality_vector[node] = global_measures.get(node, 0) / local_measures.get(node, 0)
+        if local_measures.get(node,0) != 0:
+          modular_centrality_vector[node] = global_measures.get(node, 0) / local_measures.get(node, 0)
+         else:
+          modular_centrality_vector[node]=0
     
     top_5_nodes = sorted(modular_centrality_vector.items(), key=lambda x: x[1], reverse=True)[:5]
     top_5_modular_centrality = dict(top_5_nodes)
