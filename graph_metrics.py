@@ -130,7 +130,7 @@ def modular_closeness_centrality(G):
 
     # Step 6: Compute the Global measure of the nodes linking the communities.
     global_measures = nx.closeness_centrality(global_network)  # Use the chosen centrality measure on the global network
-    print(global_measures)
+    #print(global_measures)
     # Step 7: Add local and global measures to the Modular centrality vector.
     modular_centrality_vector = {}
     for node in G.nodes():
