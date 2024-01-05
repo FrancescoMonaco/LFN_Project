@@ -138,9 +138,9 @@ def modular_closeness_centrality(G):
     
     top_5_nodes = sorted(modular_centrality_vector.items(), key=lambda x: x[1], reverse=True)[:5]
     top_5_modular_centrality = dict(top_5_nodes)
-    #print(top_5_modular_centrality)
+    print(top_5_modular_centrality)
     return top_5_modular_centrality
-
+    
 # ***Processing
 def process_graphs(dataframe, condition):
     '''
