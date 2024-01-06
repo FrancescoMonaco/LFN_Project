@@ -13,7 +13,7 @@ base_metrics = [
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
     'modularity', 'global_efficiency', 'edges', 'nodes',
-    'assortativity', 'transitivity','local_efficiency','top5_modular_closeness','top5_modular_betweeness']
+    'assortativity', 'transitivity','local_efficiency','top5_modular_closeness','top5_modular_betweenness']
 
 # ***Features
 def process_graph_centralities(G):
