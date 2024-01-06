@@ -141,7 +141,7 @@ def modular_closeness_centrality(G):
     
     top_5_nodes = sorted(modular_centrality_vector.items(), key=lambda x: x[1], reverse=True)[:5]
     top_5_modular_centrality = dict(top_5_nodes)
-    print(top_5_modular_centrality)
+    #print(top_5_modular_centrality)
     return top_5_modular_centrality
     
 # ***Processing
@@ -182,7 +182,7 @@ def process_graphs(dataframe, condition):
         tran=transitive(G)
 
         top_nodes_modular_closeness=modular_closeness_centrality(G)
-        
+        print(values_top_nodes_closeness)
         #Put results in the result df
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
