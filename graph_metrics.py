@@ -13,7 +13,7 @@ base_metrics = [
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
     'modularity', 'global_efficiency', 'edges', 'nodes',
-    'assortativity', 'transitivity','local_efficiency','top_nodes_modular_closeness']
+    'assortativity', 'transitivity','local_efficiency','top5_modular_closeness','top5_modular_betweeness']
 
 # ***Features
 def process_graph_centralities(G):
@@ -143,6 +143,57 @@ def modular_closeness_centrality(G):
     top_5_modular_centrality = dict(top_5_nodes)
     #print(top_5_modular_centrality)
     return top_5_modular_centrality
+
+
+def modular_betweenness_centrality(G):
+
+    # Step 2: Remove all the inter-community links from the original network G.
+    com = nx.connected_components(G)
+    communities = []
+    for component in com:
+        component_subgraph = G.subgraph(component)
+        communities = communities + list(greedy_modularity_communities(component_subgraph))
+
+    local_networks = []
+    for community in communities:
+        local_network = G.subgraph(community)
+        local_networks.append(local_network)
+
+    # Step 3: Compute the Local measure for each node in its own community.
+    local_measures = {}
+    for local_network in local_networks:
+        cc=nx.betweenness_centrality(local_network)
+        for node in local_network.nodes():
+            local_measures[node] =cc[node]
+    #print(local_measures)
+
+    # Step 4: Remove all the intra-community links from the original network.
+    inter_community_links = G.copy()
+
+    for local_network in local_networks:
+
+        inter_community_links.remove_edges_from(local_network.edges)
+
+    # Step 5: Form the global network based on the union of all the connected components.
+    global_network = nx.Graph()
+    global_network.add_nodes_from(G.nodes())
+    global_network.add_edges_from(inter_community_links.edges())
+
+    # Step 6: Compute the Global measure of the nodes linking the communities.
+    global_measures = nx.betweenness_centrality(global_network)  # Use the chosen centrality measure on the global network
+    #print(global_measures)
+    # Step 7: Add local and global measures to the Modular centrality vector.
+    modular_centrality_vector = {}
+    for node in G.nodes():
+         if local_measures.get(node,0) != 0:
+          modular_centrality_vector[node] = global_measures.get(node, 0) / local_measures.get(node, 0)
+         else:
+          modular_centrality_vector[node]=0
+
+    top_5_nodes = sorted(modular_centrality_vector.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_5_modular_centrality = dict(top_5_nodes)
+    #print(top_5_modular_centrality)
+    return top_5_modular_centrality
     
 # ***Processing
 def process_graphs(dataframe, condition):
@@ -182,12 +233,13 @@ def process_graphs(dataframe, condition):
         tran=transitive(G)
 
         top_nodes_modular_closeness=modular_closeness_centrality(G)
-       
+
+        top5_modular_betweennes_centrality=modular_betweenness_centrality(G)
         #Put results in the result df
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
-                        modularity, gbe,ass,tran,lc,top_nodes_modular_closeness))
+                        modularity, gbe,ass,tran,lc,top_nodes_modular_closeness,top5_modular_betweennes_centrality))
     return results
 
 def print_mean_std(dataframes, conditions, metrics=base_metrics):
