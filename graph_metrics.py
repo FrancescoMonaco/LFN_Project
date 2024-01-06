@@ -270,7 +270,7 @@ def print_mean_std(dataframes, conditions, metrics=base_metrics):
 def print_ttest_pval(dataframes, conditions, metrics=[
     'closeness', 'betweenness', 'degree', 'clustering',
     'top5_close', 'top5_betw', 'top5_deg', 'top5_clust',
-    'modularity', 'global_efficiency','assortativity', 'transitivity','local_efficiency','top5_modular_closeness','top5_modular_betweeness']):
+    'modularity', 'global_efficiency','assortativity', 'transitivity','local_efficiency','top5_modular_closeness','top5_modular_betweenness']):
   '''
   Print a table with the p-value of the t-test for each condition and metric
 
