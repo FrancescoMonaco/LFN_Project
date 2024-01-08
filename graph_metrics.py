@@ -116,14 +116,14 @@ def modular_closeness_centrality(G):
             local_measures[node] =cc[node] 
     #print(local_measures)
 
-    # Remove all the intra-community links from the original network in order to cakculate the global graph for global metric 
+    # Remove all the intra-community links from the original network in order to calculate the global graph for global metric 
     inter_community_links = G.copy()
     
     for local_network in local_networks:
          
         inter_community_links.remove_edges_from(local_network.edges)
 
-    # Form the global network based on the union of all the connected components.
+    # From the global network based on the union of all the connected components.
     global_network = nx.Graph()
     global_network.add_nodes_from(G.nodes())
     global_network.add_edges_from(inter_community_links.edges())
@@ -228,16 +228,16 @@ def process_graphs(dataframe, condition):
         
         lc= average_local_efficience(G)
         
-        #assortativity of the brain
+        # Assortativity of the brain
         ass=assortative(G)
         
-        #transitivity of the brain
+        # Transitivity of the brain
         tran=transitive(G)
 
         top_nodes_modular_closeness=modular_closeness_centrality(G)
 
         top5_modular_betweennes_centrality=modular_betweenness_centrality(G)
-        #Put results in the result df
+        # Put results in the result df
         results.append((row.name, m_closeness, m_betweenness, m_degree, avg_clust,
                         values_top_nodes_closeness, values_top_nodes_betweenness,
                         values_top_nodes_degree, values_top_nodes_clustering,
@@ -253,7 +253,6 @@ def print_mean_std(dataframes, conditions, metrics=base_metrics):
   2. conditions (list): List of conditions.
   3. metrics (list): List of metrics to be calculated.
   '''
-  #print a table with mean and std for each condition and metric
   table_data = []
 
   for column in metrics:
