@@ -28,4 +28,3 @@ def compute_communities(dataframe, condition):
         #Put results in the result df
         results.append((row.name, com))
     return results
-r
